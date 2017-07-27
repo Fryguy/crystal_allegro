@@ -4,6 +4,7 @@ lib LibC
 end
 
 @[Link("allegro")]
+@[Link("allegro_image")]
 {% if flag?(:darwin) %}
   @[Link(ldflags: "-L`xcode-select --print-path`/usr/lib")]
   @[Link(ldflags: "-rpath `xcode-select --print-path`/usr/lib")]
@@ -1109,6 +1110,9 @@ lib LibAllegro
 
   fun store_state = al_store_state(state : State*, flags : LibC::Int)
   fun restore_state = al_restore_state(state : State*)
+  fun init_image_addon = al_init_image_addon : LibC::Bool
+  fun shutdown_image_addon = al_shutdown_image_addon
+  fun get_allegro_image_version = al_get_allegro_image_version : Uint32T
   $fixtorad_r : Fixed
   $radtofix_r : Fixed
 end

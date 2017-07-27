@@ -1,8 +1,10 @@
 @[Include(
   "allegro5/allegro.h",
+  "allegro5/allegro_image.h",
   prefix: %w(al_ AL_ ALLEGRO_ _ALLEGRO)
 )]
 @[Link("allegro")]
+@[Link("allegro_image")]
 {% if flag?(:darwin) %}
   @[Link(ldflags: "-L`xcode-select --print-path`/usr/lib")]
   @[Link(ldflags: "-rpath `xcode-select --print-path`/usr/lib")]
