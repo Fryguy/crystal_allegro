@@ -32,6 +32,10 @@ TODO: Write development instructions here
 4. Push to the branch (git push origin my-new-feature)
 5. Create a new Pull Request
 
-## Contributors
+## License
 
-- [Fryguy](https://github.com/Fryguy) Jason Frey - creator, maintainer
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).  See [LICENSE](LICENSE).
+
+### Third Party Licenses
+
+The files in examples/data are borrowed from the Allegro source in order to allow the Crystal examples to serve as a mirror of the original examples. As such, the Allegro license is also included in [LICENSE_ALLEGRO](LICENSE_ALLEGRO).
