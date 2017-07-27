@@ -4,6 +4,7 @@ lib LibC
 end
 
 @[Link("allegro")]
+@[Link("allegro_dialog")]
 @[Link("allegro_image")]
 {% if flag?(:darwin) %}
   @[Link(ldflags: "-L`xcode-select --print-path`/usr/lib")]
@@ -1113,6 +1114,73 @@ lib LibAllegro
   fun init_image_addon = al_init_image_addon : LibC::Bool
   fun shutdown_image_addon = al_shutdown_image_addon
   fun get_allegro_image_version = al_get_allegro_image_version : Uint32T
+
+  struct MenuInfo
+    caption : LibC::Char*
+    id : Uint16T
+    flags : LibC::Int
+    icon : Bitmap
+  end
+
+  fun init_native_dialog_addon = al_init_native_dialog_addon : LibC::Bool
+  fun shutdown_native_dialog_addon = al_shutdown_native_dialog_addon
+  fun create_native_file_dialog = al_create_native_file_dialog(initial_path : LibC::Char*, title : LibC::Char*, patterns : LibC::Char*, mode : LibC::Int) : Filechooser
+  type Filechooser = Void*
+  fun show_native_file_dialog = al_show_native_file_dialog(display : Display*, dialog : Filechooser) : LibC::Bool
+  fun get_native_file_dialog_count = al_get_native_file_dialog_count(dialog : Filechooser) : LibC::Int
+  fun get_native_file_dialog_path = al_get_native_file_dialog_path(dialog : Filechooser, index : LibC::SizeT) : LibC::Char*
+  fun destroy_native_file_dialog = al_destroy_native_file_dialog(dialog : Filechooser)
+  fun show_native_message_box = al_show_native_message_box(display : Display*, title : LibC::Char*, heading : LibC::Char*, text : LibC::Char*, buttons : LibC::Char*, flags : LibC::Int) : LibC::Int
+  fun open_native_text_log = al_open_native_text_log(title : LibC::Char*, flags : LibC::Int) : Textlog
+  type Textlog = Void*
+  fun close_native_text_log = al_close_native_text_log(textlog : Textlog)
+  fun append_native_text_log = al_append_native_text_log(textlog : Textlog, format : LibC::Char*, ...)
+  fun get_native_text_log_event_source = al_get_native_text_log_event_source(textlog : Textlog) : EventSource*
+  fun create_menu = al_create_menu : Menu
+  type Menu = Void*
+  fun create_popup_menu = al_create_popup_menu : Menu
+  fun build_menu = al_build_menu(info : MenuInfo*) : Menu
+  fun append_menu_item = al_append_menu_item(parent : Menu, title : LibC::Char*, id : Uint16T, flags : LibC::Int, icon : Bitmap, submenu : Menu) : LibC::Int
+  fun insert_menu_item = al_insert_menu_item(parent : Menu, pos : LibC::Int, title : LibC::Char*, id : Uint16T, flags : LibC::Int, icon : Bitmap, submenu : Menu) : LibC::Int
+  fun remove_menu_item = al_remove_menu_item(menu : Menu, pos : LibC::Int) : LibC::Bool
+  fun clone_menu = al_clone_menu(menu : Menu) : Menu
+  fun clone_menu_for_popup = al_clone_menu_for_popup(menu : Menu) : Menu
+  fun destroy_menu = al_destroy_menu(menu : Menu)
+  fun get_menu_item_caption = al_get_menu_item_caption(menu : Menu, pos : LibC::Int) : LibC::Char*
+  fun set_menu_item_caption = al_set_menu_item_caption(menu : Menu, pos : LibC::Int, caption : LibC::Char*)
+  fun get_menu_item_flags = al_get_menu_item_flags(menu : Menu, pos : LibC::Int) : LibC::Int
+  fun set_menu_item_flags = al_set_menu_item_flags(menu : Menu, pos : LibC::Int, flags : LibC::Int)
+  fun get_menu_item_icon = al_get_menu_item_icon(menu : Menu, pos : LibC::Int) : Bitmap
+  fun set_menu_item_icon = al_set_menu_item_icon(menu : Menu, pos : LibC::Int, icon : Bitmap)
+  fun find_menu = al_find_menu(haystack : Menu, id : Uint16T) : Menu
+  fun find_menu_item = al_find_menu_item(haystack : Menu, id : Uint16T, menu : Menu*, index : LibC::Int*) : LibC::Bool
+  fun get_default_menu_event_source = al_get_default_menu_event_source : EventSource*
+  fun enable_menu_event_source = al_enable_menu_event_source(menu : Menu) : EventSource*
+  fun disable_menu_event_source = al_disable_menu_event_source(menu : Menu)
+  fun get_display_menu = al_get_display_menu(display : Display*) : Menu
+  fun set_display_menu = al_set_display_menu(display : Display*, menu : Menu) : LibC::Bool
+  fun popup_menu = al_popup_menu(popup : Menu, display : Display*) : LibC::Bool
+  fun remove_display_menu = al_remove_display_menu(display : Display*) : Menu
+  fun get_allegro_native_dialog_version = al_get_allegro_native_dialog_version : Uint32T
+  FilechooserFileMustExist =   1
+  FilechooserSave          =   2
+  FilechooserFolder        =   4
+  FilechooserPictures      =   8
+  FilechooserShowHidden    =  16
+  FilechooserMultiple      =  32
+  MessageboxWarn           =   1
+  MessageboxError          =   2
+  MessageboxOkCancel       =   4
+  MessageboxYesNo          =   8
+  MessageboxQuestion       =  16
+  TextlogNoClose           =   1
+  TextlogMonospace         =   2
+  EventNativeDialogClose   = 600
+  EventMenuClick           = 601
+  MenuItemEnabled          =   0
+  MenuItemCheckbox         =   1
+  MenuItemChecked          =   2
+  MenuItemDisabled         =   4
   $fixtorad_r : Fixed
   $radtofix_r : Fixed
 end
