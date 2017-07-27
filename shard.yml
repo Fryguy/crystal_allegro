@@ -1,0 +1,9 @@
+name: crystal_allegro
+version: 0.1.0
+
+authors:
+  - Jason Frey <fryguy9@gmail.com>
+
+crystal: 0.23.1
+
+license: MIT
