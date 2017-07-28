@@ -1,3 +1,11 @@
+# How to generate
+#
+# ```
+# git clone https://github.com/crystal-lang/crystal_lib.git
+# cd crystal_allegro
+# crystal ../crystal_lib/src/main.cr -- generator/lib_allegro.cr > src/crystal_allegro/lib_allegro.cr
+# ```
+
 @[Include(
   "allegro5/allegro.h",
   "allegro5/allegro_image.h",
