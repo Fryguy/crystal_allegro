@@ -2,6 +2,7 @@
 @[Link("allegro_dialog")]
 @[Link("allegro_font")]
 @[Link("allegro_image")]
+@[Link("allegro_primitives")]
 {% if flag?(:darwin) %}
   @[Link(ldflags: "-L`xcode-select --print-path`/usr/lib")]
   @[Link(ldflags: "-rpath `xcode-select --print-path`/usr/lib")]
@@ -19,6 +20,8 @@ lib LibAllegro
   NEW_WINDOW_TITLE_MAX_SIZE   =                    255
   MOUSE_MAX_EXTRA_AXES        =                      4
   TOUCH_INPUT_MAX_TOUCH_COUNT =                     16
+  VERTEX_CACHE_SIZE           =                    256
+  PRIM_QUALITY                =                     10
   fun get_allegro_version = al_get_allegro_version : Uint32T
   alias Uint32T = LibC::UInt
   fun run_main = al_run_main(argc : LibC::Int, argv : LibC::Char**, x2 : (LibC::Int, LibC::Char** -> LibC::Int)) : LibC::Int
@@ -1218,6 +1221,73 @@ lib LibAllegro
   MenuItemCheckbox         =   1
   MenuItemChecked          =   2
   MenuItemDisabled         =   4
+  PrimMaxUserAttr          =  10
+
+  struct VertexElement
+    attribute : LibC::Int
+    storage : LibC::Int
+    offset : LibC::Int
+  end
+
+  struct Vertex
+    x : LibC::Float
+    y : LibC::Float
+    z : LibC::Float
+    u : LibC::Float
+    v : LibC::Float
+    color : Color
+  end
+
+  fun get_allegro_primitives_version = al_get_allegro_primitives_version : Uint32T
+  fun init_primitives_addon = al_init_primitives_addon : LibC::Bool
+  fun shutdown_primitives_addon = al_shutdown_primitives_addon
+  fun draw_prim = al_draw_prim(vtxs : Void*, decl : VertexDecl, texture : Bitmap, start : LibC::Int, _end : LibC::Int, type : LibC::Int) : LibC::Int
+  type VertexDecl = Void*
+  fun draw_indexed_prim = al_draw_indexed_prim(vtxs : Void*, decl : VertexDecl, texture : Bitmap, indices : LibC::Int*, num_vtx : LibC::Int, type : LibC::Int) : LibC::Int
+  fun draw_vertex_buffer = al_draw_vertex_buffer(vertex_buffer : VertexBuffer, texture : Bitmap, start : LibC::Int, _end : LibC::Int, type : LibC::Int) : LibC::Int
+  type VertexBuffer = Void*
+  fun draw_indexed_buffer = al_draw_indexed_buffer(vertex_buffer : VertexBuffer, texture : Bitmap, index_buffer : IndexBuffer, start : LibC::Int, _end : LibC::Int, type : LibC::Int) : LibC::Int
+  type IndexBuffer = Void*
+  fun create_vertex_decl = al_create_vertex_decl(elements : VertexElement*, stride : LibC::Int) : VertexDecl
+  fun destroy_vertex_decl = al_destroy_vertex_decl(decl : VertexDecl)
+  fun create_vertex_buffer = al_create_vertex_buffer(decl : VertexDecl, initial_data : Void*, num_vertices : LibC::Int, flags : LibC::Int) : VertexBuffer
+  fun destroy_vertex_buffer = al_destroy_vertex_buffer(buffer : VertexBuffer)
+  fun lock_vertex_buffer = al_lock_vertex_buffer(buffer : VertexBuffer, offset : LibC::Int, length : LibC::Int, flags : LibC::Int) : Void*
+  fun unlock_vertex_buffer = al_unlock_vertex_buffer(buffer : VertexBuffer)
+  fun get_vertex_buffer_size = al_get_vertex_buffer_size(buffer : VertexBuffer) : LibC::Int
+  fun create_index_buffer = al_create_index_buffer(index_size : LibC::Int, initial_data : Void*, num_indices : LibC::Int, flags : LibC::Int) : IndexBuffer
+  fun destroy_index_buffer = al_destroy_index_buffer(buffer : IndexBuffer)
+  fun lock_index_buffer = al_lock_index_buffer(buffer : IndexBuffer, offset : LibC::Int, length : LibC::Int, flags : LibC::Int) : Void*
+  fun unlock_index_buffer = al_unlock_index_buffer(buffer : IndexBuffer)
+  fun get_index_buffer_size = al_get_index_buffer_size(buffer : IndexBuffer) : LibC::Int
+  fun triangulate_polygon = al_triangulate_polygon(vertices : LibC::Float*, vertex_stride : LibC::SizeT, vertex_counts : LibC::Int*, emit_triangle : (LibC::Int, LibC::Int, LibC::Int, Void* -> Void), userdata : Void*) : LibC::Bool
+  fun draw_soft_triangle = al_draw_soft_triangle(v1 : Vertex*, v2 : Vertex*, v3 : Vertex*, state : UintptrT, init : (UintptrT, Vertex*, Vertex*, Vertex* -> Void), first : (UintptrT, LibC::Int, LibC::Int, LibC::Int, LibC::Int -> Void), step : (UintptrT, LibC::Int -> Void), draw : (UintptrT, LibC::Int, LibC::Int, LibC::Int -> Void))
+  alias UintptrT = LibC::ULong
+  fun draw_soft_line = al_draw_soft_line(v1 : Vertex*, v2 : Vertex*, state : UintptrT, first : (UintptrT, LibC::Int, LibC::Int, Vertex*, Vertex* -> Void), step : (UintptrT, LibC::Int -> Void), draw : (UintptrT, LibC::Int, LibC::Int -> Void))
+  fun draw_line = al_draw_line(x1 : LibC::Float, y1 : LibC::Float, x2 : LibC::Float, y2 : LibC::Float, color : Color, thickness : LibC::Float)
+  fun draw_triangle = al_draw_triangle(x1 : LibC::Float, y1 : LibC::Float, x2 : LibC::Float, y2 : LibC::Float, x3 : LibC::Float, y3 : LibC::Float, color : Color, thickness : LibC::Float)
+  fun draw_rectangle = al_draw_rectangle(x1 : LibC::Float, y1 : LibC::Float, x2 : LibC::Float, y2 : LibC::Float, color : Color, thickness : LibC::Float)
+  fun draw_rounded_rectangle = al_draw_rounded_rectangle(x1 : LibC::Float, y1 : LibC::Float, x2 : LibC::Float, y2 : LibC::Float, rx : LibC::Float, ry : LibC::Float, color : Color, thickness : LibC::Float)
+  fun calculate_arc = al_calculate_arc(dest : LibC::Float*, stride : LibC::Int, cx : LibC::Float, cy : LibC::Float, rx : LibC::Float, ry : LibC::Float, start_theta : LibC::Float, delta_theta : LibC::Float, thickness : LibC::Float, num_points : LibC::Int)
+  fun draw_circle = al_draw_circle(cx : LibC::Float, cy : LibC::Float, r : LibC::Float, color : Color, thickness : LibC::Float)
+  fun draw_ellipse = al_draw_ellipse(cx : LibC::Float, cy : LibC::Float, rx : LibC::Float, ry : LibC::Float, color : Color, thickness : LibC::Float)
+  fun draw_arc = al_draw_arc(cx : LibC::Float, cy : LibC::Float, r : LibC::Float, start_theta : LibC::Float, delta_theta : LibC::Float, color : Color, thickness : LibC::Float)
+  fun draw_elliptical_arc = al_draw_elliptical_arc(cx : LibC::Float, cy : LibC::Float, rx : LibC::Float, ry : LibC::Float, start_theta : LibC::Float, delta_theta : LibC::Float, color : Color, thickness : LibC::Float)
+  fun draw_pieslice = al_draw_pieslice(cx : LibC::Float, cy : LibC::Float, r : LibC::Float, start_theta : LibC::Float, delta_theta : LibC::Float, color : Color, thickness : LibC::Float)
+  fun calculate_spline = al_calculate_spline(dest : LibC::Float*, stride : LibC::Int, points : LibC::Float[8], thickness : LibC::Float, num_segments : LibC::Int)
+  fun draw_spline = al_draw_spline(points : LibC::Float[8], color : Color, thickness : LibC::Float)
+  fun calculate_ribbon = al_calculate_ribbon(dest : LibC::Float*, dest_stride : LibC::Int, points : LibC::Float*, points_stride : LibC::Int, thickness : LibC::Float, num_segments : LibC::Int)
+  fun draw_ribbon = al_draw_ribbon(points : LibC::Float*, points_stride : LibC::Int, color : Color, thickness : LibC::Float, num_segments : LibC::Int)
+  fun draw_filled_triangle = al_draw_filled_triangle(x1 : LibC::Float, y1 : LibC::Float, x2 : LibC::Float, y2 : LibC::Float, x3 : LibC::Float, y3 : LibC::Float, color : Color)
+  fun draw_filled_rectangle = al_draw_filled_rectangle(x1 : LibC::Float, y1 : LibC::Float, x2 : LibC::Float, y2 : LibC::Float, color : Color)
+  fun draw_filled_ellipse = al_draw_filled_ellipse(cx : LibC::Float, cy : LibC::Float, rx : LibC::Float, ry : LibC::Float, color : Color)
+  fun draw_filled_circle = al_draw_filled_circle(cx : LibC::Float, cy : LibC::Float, r : LibC::Float, color : Color)
+  fun draw_filled_pieslice = al_draw_filled_pieslice(cx : LibC::Float, cy : LibC::Float, r : LibC::Float, start_theta : LibC::Float, delta_theta : LibC::Float, color : Color)
+  fun draw_filled_rounded_rectangle = al_draw_filled_rounded_rectangle(x1 : LibC::Float, y1 : LibC::Float, x2 : LibC::Float, y2 : LibC::Float, rx : LibC::Float, ry : LibC::Float, color : Color)
+  fun draw_polyline = al_draw_polyline(vertices : LibC::Float*, vertex_stride : LibC::Int, vertex_count : LibC::Int, join_style : LibC::Int, cap_style : LibC::Int, color : Color, thickness : LibC::Float, miter_limit : LibC::Float)
+  fun draw_polygon = al_draw_polygon(vertices : LibC::Float*, vertex_count : LibC::Int, join_style : LibC::Int, color : Color, thickness : LibC::Float, miter_limit : LibC::Float)
+  fun draw_filled_polygon = al_draw_filled_polygon(vertices : LibC::Float*, vertex_count : LibC::Int, color : Color)
+  fun draw_filled_polygon_with_holes = al_draw_filled_polygon_with_holes(vertices : LibC::Float*, vertex_counts : LibC::Int*, color : Color)
   $fixtorad_r : Fixed
   $radtofix_r : Fixed
 end
