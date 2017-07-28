@@ -1,8 +1,3 @@
-lib LibC
-  alias Bool = UChar
-  alias VaList = ULongLong
-end
-
 @[Link("allegro")]
 @[Link("allegro_dialog")]
 @[Link("allegro_image")]
