@@ -13,7 +13,7 @@
   "allegro5/allegro_native_dialog.h",
   "allegro5/allegro_primitives.h",
 
-  prefix: %w(al_ AL_ ALLEGRO_ _ALLEGRO)
+  prefix: %w(al_ AL_ ALLEGRO_ _al _ALLEGRO)
 )]
 @[Link("allegro")]
 @[Link("allegro_dialog")]

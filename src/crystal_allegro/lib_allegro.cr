@@ -135,15 +135,15 @@ lib LibAllegro
   fun set_path_extension = al_set_path_extension(path : Path, extension : LibC::Char*) : LibC::Bool
   fun get_path_basename = al_get_path_basename(path : Path) : LibC::Char*
   fun make_path_canonical = al_make_path_canonical(path : Path) : LibC::Bool
-  fun ustr_new = al_ustr_new(s : LibC::Char*) : Ustr*
 
-  struct X_AlTagbstring
+  struct X_Tagbstring
     mlen : LibC::Int
     slen : LibC::Int
     data : UInt8*
   end
 
-  type Ustr = X_AlTagbstring
+  fun ustr_new = al_ustr_new(s : LibC::Char*) : Ustr*
+  type Ustr = X_Tagbstring
   fun ustr_new_from_buffer = al_ustr_new_from_buffer(s : LibC::Char*, size : LibC::SizeT) : Ustr*
   fun ustr_newf = al_ustr_newf(fmt : LibC::Char*, ...) : Ustr*
   fun ustr_free = al_ustr_free(us : Ustr*)
@@ -154,7 +154,7 @@ lib LibAllegro
   fun ustr_dup_substr = al_ustr_dup_substr(us : Ustr*, start_pos : LibC::Int, end_pos : LibC::Int) : Ustr*
   fun ustr_empty_string = al_ustr_empty_string : Ustr*
   fun ref_cstr = al_ref_cstr(info : UstrInfo*, s : LibC::Char*) : Ustr*
-  type UstrInfo = X_AlTagbstring
+  type UstrInfo = X_Tagbstring
   fun ref_buffer = al_ref_buffer(info : UstrInfo*, s : LibC::Char*, size : LibC::SizeT) : Ustr*
   fun ref_ustr = al_ref_ustr(info : UstrInfo*, us : Ustr*, start_pos : LibC::Int, end_pos : LibC::Int) : Ustr*
   fun ustr_size = al_ustr_size(us : Ustr*) : LibC::SizeT
@@ -572,6 +572,8 @@ lib LibAllegro
   fun get_next_config_entry = al_get_next_config_entry(iterator : ConfigEntry*) : LibC::Char*
   fun get_cpu_count = al_get_cpu_count : LibC::Int
   fun get_ram_size = al_get_ram_size : LibC::Int
+  fun _trace_prefix = _al_trace_prefix(channel : LibC::Char*, level : LibC::Int, file : LibC::Char*, line : LibC::Int, function : LibC::Char*) : LibC::Bool
+  fun _trace_suffix = _al_trace_suffix(msg : LibC::Char*, ...)
   fun register_assert_handler = al_register_assert_handler(handler : (LibC::Char*, LibC::Char*, LibC::Int, LibC::Char* -> Void))
   fun register_trace_handler = al_register_trace_handler(handler : (LibC::Char* -> Void))
   fun clear_to_color = al_clear_to_color(color : Color)
@@ -1109,6 +1111,7 @@ lib LibAllegro
 
   fun store_state = al_store_state(state : State*, flags : LibC::Int)
   fun restore_state = al_restore_state(state : State*)
+  fun _osx_get_path = _al_osx_get_path(id : LibC::Int) : Path
   fun init_image_addon = al_init_image_addon : LibC::Bool
   fun shutdown_image_addon = al_shutdown_image_addon
   fun get_allegro_image_version = al_get_allegro_image_version : Uint32T
@@ -1288,6 +1291,12 @@ lib LibAllegro
   fun draw_polygon = al_draw_polygon(vertices : LibC::Float*, vertex_count : LibC::Int, join_style : LibC::Int, color : Color, thickness : LibC::Float, miter_limit : LibC::Float)
   fun draw_filled_polygon = al_draw_filled_polygon(vertices : LibC::Float*, vertex_count : LibC::Int, color : Color)
   fun draw_filled_polygon_with_holes = al_draw_filled_polygon_with_holes(vertices : LibC::Float*, vertex_counts : LibC::Int*, color : Color)
+  $_user_assert_handler : (LibC::Char*, LibC::Char*, LibC::Int, LibC::Char* -> Void)
   $fixtorad_r : Fixed
   $radtofix_r : Fixed
+  $_fix_cos_tbl : Fixed*
+  $_fix_tan_tbl : Fixed*
+  $_fix_acos_tbl : Fixed*
+  $_three_finger_flag : LibC::Bool
+  $_key_led_flag : LibC::Bool
 end
