@@ -1,5 +1,6 @@
 @[Link("allegro")]
 @[Link("allegro_dialog")]
+@[Link("allegro_font")]
 @[Link("allegro_image")]
 {% if flag?(:darwin) %}
   @[Link(ldflags: "-L`xcode-select --print-path`/usr/lib")]
@@ -1155,6 +1156,48 @@ lib LibAllegro
   fun init_image_addon = al_init_image_addon : LibC::Bool
   fun shutdown_image_addon = al_shutdown_image_addon
   fun get_allegro_image_version = al_get_allegro_image_version : Uint32T
+  NoKerning    = -1
+  AlignLeft    =  0
+  AlignCentre  =  1
+  AlignCenter  =  1
+  AlignRight   =  2
+  AlignInteger =  4
+  fun register_font_loader = al_register_font_loader(ext : LibC::Char*, load : (LibC::Char*, LibC::Int, LibC::Int -> Font)) : LibC::Bool
+  type Font = Void*
+  fun load_bitmap_font = al_load_bitmap_font(filename : LibC::Char*) : Font
+  fun load_bitmap_font_flags = al_load_bitmap_font_flags(filename : LibC::Char*, flags : LibC::Int) : Font
+  fun load_font = al_load_font(filename : LibC::Char*, size : LibC::Int, flags : LibC::Int) : Font
+  fun grab_font_from_bitmap = al_grab_font_from_bitmap(bmp : Bitmap, n : LibC::Int, ranges : LibC::Int*) : Font
+  fun create_builtin_font = al_create_builtin_font : Font
+  fun draw_ustr = al_draw_ustr(font : Font, color : Color, x : LibC::Float, y : LibC::Float, flags : LibC::Int, ustr : Ustr*)
+  fun draw_text = al_draw_text(font : Font, color : Color, x : LibC::Float, y : LibC::Float, flags : LibC::Int, text : LibC::Char*)
+  fun draw_justified_text = al_draw_justified_text(font : Font, color : Color, x1 : LibC::Float, x2 : LibC::Float, y : LibC::Float, diff : LibC::Float, flags : LibC::Int, text : LibC::Char*)
+  fun draw_justified_ustr = al_draw_justified_ustr(font : Font, color : Color, x1 : LibC::Float, x2 : LibC::Float, y : LibC::Float, diff : LibC::Float, flags : LibC::Int, text : Ustr*)
+  fun draw_textf = al_draw_textf(font : Font, color : Color, x : LibC::Float, y : LibC::Float, flags : LibC::Int, format : LibC::Char*, ...)
+  fun draw_justified_textf = al_draw_justified_textf(font : Font, color : Color, x1 : LibC::Float, x2 : LibC::Float, y : LibC::Float, diff : LibC::Float, flags : LibC::Int, format : LibC::Char*, ...)
+  fun get_text_width = al_get_text_width(f : Font, str : LibC::Char*) : LibC::Int
+  fun get_ustr_width = al_get_ustr_width(f : Font, ustr : Ustr*) : LibC::Int
+  fun get_font_line_height = al_get_font_line_height(f : Font) : LibC::Int
+  fun get_font_ascent = al_get_font_ascent(f : Font) : LibC::Int
+  fun get_font_descent = al_get_font_descent(f : Font) : LibC::Int
+  fun destroy_font = al_destroy_font(f : Font)
+  fun get_ustr_dimensions = al_get_ustr_dimensions(f : Font, text : Ustr*, bbx : LibC::Int*, bby : LibC::Int*, bbw : LibC::Int*, bbh : LibC::Int*)
+  fun get_text_dimensions = al_get_text_dimensions(f : Font, text : LibC::Char*, bbx : LibC::Int*, bby : LibC::Int*, bbw : LibC::Int*, bbh : LibC::Int*)
+  fun init_font_addon = al_init_font_addon : LibC::Bool
+  fun shutdown_font_addon = al_shutdown_font_addon
+  fun get_allegro_font_version = al_get_allegro_font_version : Uint32T
+  fun get_font_ranges = al_get_font_ranges(font : Font, ranges_count : LibC::Int, ranges : LibC::Int*) : LibC::Int
+  fun draw_glyph = al_draw_glyph(font : Font, color : Color, x : LibC::Float, y : LibC::Float, codepoint : LibC::Int)
+  fun get_glyph_width = al_get_glyph_width(f : Font, codepoint : LibC::Int) : LibC::Int
+  fun get_glyph_dimensions = al_get_glyph_dimensions(f : Font, codepoint : LibC::Int, bbx : LibC::Int*, bby : LibC::Int*, bbw : LibC::Int*, bbh : LibC::Int*) : LibC::Bool
+  fun get_glyph_advance = al_get_glyph_advance(f : Font, codepoint1 : LibC::Int, codepoint2 : LibC::Int) : LibC::Int
+  fun draw_multiline_text = al_draw_multiline_text(font : Font, color : Color, x : LibC::Float, y : LibC::Float, max_width : LibC::Float, line_height : LibC::Float, flags : LibC::Int, text : LibC::Char*)
+  fun draw_multiline_textf = al_draw_multiline_textf(font : Font, color : Color, x : LibC::Float, y : LibC::Float, max_width : LibC::Float, line_height : LibC::Float, flags : LibC::Int, format : LibC::Char*, ...)
+  fun draw_multiline_ustr = al_draw_multiline_ustr(font : Font, color : Color, x : LibC::Float, y : LibC::Float, max_width : LibC::Float, line_height : LibC::Float, flags : LibC::Int, text : Ustr*)
+  fun do_multiline_text = al_do_multiline_text(font : Font, max_width : LibC::Float, text : LibC::Char*, cb : (LibC::Int, LibC::Char*, LibC::Int, Void* -> LibC::Bool), extra : Void*)
+  fun do_multiline_ustr = al_do_multiline_ustr(font : Font, max_width : LibC::Float, ustr : Ustr*, cb : (LibC::Int, Ustr*, Void* -> LibC::Bool), extra : Void*)
+  fun set_fallback_font = al_set_fallback_font(font : Font, fallback : Font)
+  fun get_fallback_font = al_get_fallback_font(font : Font) : Font
 
   struct MenuInfo
     caption : LibC::Char*
