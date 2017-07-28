@@ -1,14 +1,14 @@
 require "./crystal_allegro/*"
 
 module CrystalAllegro
-  @@real_main : Proc(Int32, Array(String), Nil)?
+  @@main : Proc(Nil)?
 
-  def self.run_main(@@real_main)
+  def self.run_main(&@@main)
     LibAllegro.run_main(0, nil, ->run_main_callback)
   end
 
-  def self.run_main_callback(argc : LibC::Int, argv : LibC::Char**) : LibC::Int
-    @@real_main.not_nil!.call(ARGV.size + 1, ARGV.unshift($0))
+  private def self.run_main_callback(_argc : LibC::Int, _argv : LibC::Char**) : LibC::Int
+    @@main.not_nil!.call
     0
   rescue ex
     STDERR.puts ex.inspect_with_backtrace

@@ -10,7 +10,7 @@ require "./common"
 class ExBitmap
   include Common
 
-  def main(argc, argv)
+  def main
     redraw = true
     zoom = 1.0
 
@@ -20,7 +20,7 @@ class ExBitmap
     # PNG and JPG support on all platforms. Additional formats
     # are supported by platform specific libraries and support for
     # image formats can also be added at runtime.
-    filename = argc > 1 ? argv[1] : "data/mysha.pcx"
+    filename = ARGV.size > 0 ? ARGV[0] : "data/mysha.pcx"
 
     abort_example("Could not init Allegro.\n") unless CrystalAllegro.init
 
@@ -29,7 +29,7 @@ class ExBitmap
 
     # The second parameter to the process can optionally specify what
     # adapter to use.
-    LibAllegro.set_new_display_adapter(argv[2].to_i) if argc > 2
+    LibAllegro.set_new_display_adapter(ARGV[1].to_i) if ARGV.size > 1
 
     # Allegro requires installing drivers for all input devices before
     # they can be used.
@@ -121,5 +121,4 @@ class ExBitmap
   end
 end
 
-ex = ExBitmap.new
-CrystalAllegro.run_main(->ex.main(Int32, Array(String)))
+CrystalAllegro.run_main { ExBitmap.new.main }
