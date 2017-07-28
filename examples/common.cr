@@ -5,14 +5,14 @@ module Common
   end
 
   {% if env("ALLEGRO_POPUP_EXAMPLES") %}
-    @@textlog : LibAllegro::Textlog?
+    @textlog : LibAllegro::Textlog?
 
     def textlog
-      @@textlog || Pointer(Void).null.unsafe_as(LibAllegro::Textlog)
+      @textlog || Pointer(Void).null.unsafe_as(LibAllegro::Textlog)
     end
 
     def textlog=(val)
-      @@textlog = val
+      @textlog = val
     end
 
     def abort_example(format, *args)
