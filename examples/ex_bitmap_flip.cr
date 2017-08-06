@@ -144,4 +144,4 @@ class ExBitmapFlip
   end
 end
 
-CrystalAllegro.run_main { ExBitmapFlip.new.main }
+ExBitmapFlip.new.main

@@ -121,4 +121,4 @@ class ExBitmap
   end
 end
 
-CrystalAllegro.run_main { ExBitmap.new.main }
+ExBitmap.new.main
