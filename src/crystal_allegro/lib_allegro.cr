@@ -362,7 +362,7 @@ lib LibAllegro
 
   struct DisplayEvent
     type : EventType
-    source : Void*
+    source : Display*
     timestamp : LibC::Double
     x : LibC::Int
     y : LibC::Int
