@@ -103,4 +103,14 @@ lib LibAllegro
   StateProjectionTransform      = 0x0100
   StateBitmap                   = StateTargetBitmap + StateNewBitmapParameters
   StateAll                      = 0xffff
+  FilemodeRead                  =      1
+  FilemodeWrite                 = 1 << 1
+  FilemodeExecute               = 1 << 2
+  FilemodeHidden                = 1 << 3
+  FilemodeIsfile                = 1 << 4
+  FilemodeIsdir                 = 1 << 5
+  ForEachFsEntryError           = -1
+  ForEachFsEntryOk              =  0
+  ForEachFsEntrySkip            =  1
+  ForEachFsEntryStop            =  2
 end
