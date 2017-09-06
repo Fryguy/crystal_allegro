@@ -11,11 +11,11 @@ class ExBitmapFlip
   # Fire the update every 10 milliseconds.
   INTERVAL = 0.01
 
-  @bmp_x = 200.0
-  @bmp_y = 200.0
-  @bmp_dx = 96.0
-  @bmp_dy = 96.0
-  @bmp_flag = 0
+  property bmp_x = 200.0
+  property bmp_y = 200.0
+  property bmp_dx = 96.0
+  property bmp_dy = 96.0
+  property bmp_flag = 0
 
   # Updates the bitmap velocity, orientation and position.
   def update(bmp)
@@ -25,32 +25,32 @@ class ExBitmapFlip
     bitmap_w = LibAllegro.get_bitmap_width(bmp)
     bitmap_h = LibAllegro.get_bitmap_height(bmp)
 
-    @bmp_x += @bmp_dx * INTERVAL
-    @bmp_y += @bmp_dy * INTERVAL
+    self.bmp_x += bmp_dx * INTERVAL
+    self.bmp_y += bmp_dy * INTERVAL
 
     # Make sure bitmap is still on the screen.
-    if @bmp_y < 0
-      @bmp_y = 0
-      @bmp_dy *= -1
-      @bmp_flag &= ~LibAllegro::FlipVertical
+    if bmp_y < 0
+      self.bmp_y = 0.0
+      self.bmp_dy *= -1
+      self.bmp_flag &= ~LibAllegro::FlipVertical
     end
 
-    if @bmp_x < 0
-      @bmp_x = 0
-      @bmp_dx *= -1
-      @bmp_flag &= ~LibAllegro::FlipHorizontal
+    if bmp_x < 0
+      self.bmp_x = 0.0
+      self.bmp_dx *= -1
+      self.bmp_flag &= ~LibAllegro::FlipHorizontal
     end
 
-    if @bmp_y > display_h - bitmap_h
-      @bmp_y = display_h - bitmap_h
-      @bmp_dy *= -1
-      @bmp_flag |= LibAllegro::FlipVertical
+    if bmp_y > display_h - bitmap_h
+      self.bmp_y = display_h.to_f - bitmap_h
+      self.bmp_dy *= -1
+      self.bmp_flag |= LibAllegro::FlipVertical
     end
 
-    if @bmp_x > display_w - bitmap_w
-      @bmp_x = display_w - bitmap_w
-      @bmp_dx *= -1
-      @bmp_flag |= LibAllegro::FlipHorizontal
+    if bmp_x > display_w - bitmap_w
+      self.bmp_x = display_w.to_f - bitmap_w
+      self.bmp_dx *= -1
+      self.bmp_flag |= LibAllegro::FlipHorizontal
     end
   end
 
@@ -111,7 +111,7 @@ class ExBitmapFlip
         # Clear so we don't get trippy artifacts left after zoom.
         LibAllegro.clear_to_color(LibAllegro.map_rgb_f(0, 0, 0))
         LibAllegro.draw_tinted_bitmap(bmp, LibAllegro.map_rgba_f(1, 1, 1, 0.5),
-          @bmp_x, @bmp_y, @bmp_flag)
+          bmp_x, bmp_y, bmp_flag)
         LibAllegro.draw_text(font, LibAllegro.map_rgba_f(1, 1, 1, 0.5), 0, 0, 0, text)
         LibAllegro.flip_display
         redraw = false
