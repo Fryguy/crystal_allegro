@@ -113,4 +113,7 @@ lib LibAllegro
   ForEachFsEntryOk              =  0
   ForEachFsEntrySkip            =  1
   ForEachFsEntryStop            =  2
+  SeekSet                       =  0
+  SeekCur                       =  1
+  SeekEnd                       =  2
 end
