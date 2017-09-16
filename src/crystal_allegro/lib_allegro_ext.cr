@@ -116,4 +116,6 @@ lib LibAllegro
   SeekSet                       =  0
   SeekCur                       =  1
   SeekEnd                       =  2
+  NativePathSep                 = '/'.ord
+  NativeDriveSep                = '\0'.ord
 end
