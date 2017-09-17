@@ -1,4 +1,5 @@
 @[Link("allegro")]
+@[Link("allegro_color")]
 @[Link("allegro_dialog")]
 @[Link("allegro_font")]
 @[Link("allegro_image")]
@@ -1112,6 +1113,25 @@ lib LibAllegro
   fun store_state = al_store_state(state : State*, flags : LibC::Int)
   fun restore_state = al_restore_state(state : State*)
   fun _osx_get_path = _al_osx_get_path(id : LibC::Int) : Path
+  fun get_allegro_color_version = al_get_allegro_color_version : Uint32T
+  fun color_hsv_to_rgb = al_color_hsv_to_rgb(hue : LibC::Float, saturation : LibC::Float, value : LibC::Float, red : LibC::Float*, green : LibC::Float*, blue : LibC::Float*)
+  fun color_rgb_to_hsl = al_color_rgb_to_hsl(red : LibC::Float, green : LibC::Float, blue : LibC::Float, hue : LibC::Float*, saturation : LibC::Float*, lightness : LibC::Float*)
+  fun color_rgb_to_hsv = al_color_rgb_to_hsv(red : LibC::Float, green : LibC::Float, blue : LibC::Float, hue : LibC::Float*, saturation : LibC::Float*, value : LibC::Float*)
+  fun color_hsl_to_rgb = al_color_hsl_to_rgb(hue : LibC::Float, saturation : LibC::Float, lightness : LibC::Float, red : LibC::Float*, green : LibC::Float*, blue : LibC::Float*)
+  fun color_name_to_rgb = al_color_name_to_rgb(name : LibC::Char*, r : LibC::Float*, g : LibC::Float*, b : LibC::Float*) : LibC::Bool
+  fun color_rgb_to_name = al_color_rgb_to_name(r : LibC::Float, g : LibC::Float, b : LibC::Float) : LibC::Char*
+  fun color_cmyk_to_rgb = al_color_cmyk_to_rgb(cyan : LibC::Float, magenta : LibC::Float, yellow : LibC::Float, key : LibC::Float, red : LibC::Float*, green : LibC::Float*, blue : LibC::Float*)
+  fun color_rgb_to_cmyk = al_color_rgb_to_cmyk(red : LibC::Float, green : LibC::Float, blue : LibC::Float, cyan : LibC::Float*, magenta : LibC::Float*, yellow : LibC::Float*, key : LibC::Float*)
+  fun color_yuv_to_rgb = al_color_yuv_to_rgb(y : LibC::Float, u : LibC::Float, v : LibC::Float, red : LibC::Float*, green : LibC::Float*, blue : LibC::Float*)
+  fun color_rgb_to_yuv = al_color_rgb_to_yuv(red : LibC::Float, green : LibC::Float, blue : LibC::Float, y : LibC::Float*, u : LibC::Float*, v : LibC::Float*)
+  fun color_rgb_to_html = al_color_rgb_to_html(red : LibC::Float, green : LibC::Float, blue : LibC::Float, string : LibC::Char*)
+  fun color_html_to_rgb = al_color_html_to_rgb(string : LibC::Char*, red : LibC::Float*, green : LibC::Float*, blue : LibC::Float*) : LibC::Bool
+  fun color_yuv = al_color_yuv(y : LibC::Float, u : LibC::Float, v : LibC::Float) : Color
+  fun color_cmyk = al_color_cmyk(c : LibC::Float, m : LibC::Float, y : LibC::Float, k : LibC::Float) : Color
+  fun color_hsl = al_color_hsl(h : LibC::Float, s : LibC::Float, l : LibC::Float) : Color
+  fun color_hsv = al_color_hsv(h : LibC::Float, s : LibC::Float, v : LibC::Float) : Color
+  fun color_name = al_color_name(name : LibC::Char*) : Color
+  fun color_html = al_color_html(string : LibC::Char*) : Color
   fun init_image_addon = al_init_image_addon : LibC::Bool
   fun shutdown_image_addon = al_shutdown_image_addon
   fun get_allegro_image_version = al_get_allegro_image_version : Uint32T
