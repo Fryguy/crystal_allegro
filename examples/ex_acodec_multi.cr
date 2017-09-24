@@ -97,5 +97,6 @@ begin
 
   LibAllegro.uninstall_audio
 rescue AbortException
+ensure
   close_log(true)
 end
