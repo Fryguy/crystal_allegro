@@ -1,4 +1,5 @@
 @[Link("allegro")]
+@[Link("allegro_audio")]
 @[Link("allegro_color")]
 @[Link("allegro_dialog")]
 @[Link("allegro_font")]
@@ -21,6 +22,7 @@ lib LibAllegro
   NEW_WINDOW_TITLE_MAX_SIZE   =                    255
   MOUSE_MAX_EXTRA_AXES        =                      4
   TOUCH_INPUT_MAX_TOUCH_COUNT =                     16
+  MAX_CHANNELS                =                      8
   VERTEX_CACHE_SIZE           =                    256
   PRIM_QUALITY                =                     10
   fun get_allegro_version = al_get_allegro_version : Uint32T
@@ -1113,6 +1115,170 @@ lib LibAllegro
   fun store_state = al_store_state(state : State*, flags : LibC::Int)
   fun restore_state = al_restore_state(state : State*)
   fun _osx_get_path = _al_osx_get_path(id : LibC::Int) : Path
+
+  struct SampleId
+    _index : LibC::Int
+    _id : LibC::Int
+  end
+
+  fun create_sample = al_create_sample(buf : Void*, samples : LibC::UInt, freq : LibC::UInt, depth : AudioDepth, chan_conf : ChannelConf, free_buf : LibC::Bool) : Sample
+  enum AudioDepth
+    AudioDepthInt8     =  0
+    AudioDepthInt16    =  1
+    AudioDepthInt24    =  2
+    AudioDepthFloat32  =  3
+    AudioDepthUnsigned =  8
+    AudioDepthUint8    =  8
+    AudioDepthUint16   =  9
+    AudioDepthUint24   = 10
+  end
+  enum ChannelConf
+    ChannelConf1  =  16
+    ChannelConf2  =  32
+    ChannelConf3  =  48
+    ChannelConf4  =  64
+    ChannelConf51 =  81
+    ChannelConf61 =  97
+    ChannelConf71 = 113
+  end
+  type Sample = Void*
+  fun destroy_sample = al_destroy_sample(spl : Sample)
+  fun create_sample_instance = al_create_sample_instance(data : Sample) : SampleInstance
+  type SampleInstance = Void*
+  fun destroy_sample_instance = al_destroy_sample_instance(spl : SampleInstance)
+  fun get_sample_frequency = al_get_sample_frequency(spl : Sample) : LibC::UInt
+  fun get_sample_length = al_get_sample_length(spl : Sample) : LibC::UInt
+  fun get_sample_depth = al_get_sample_depth(spl : Sample) : AudioDepth
+  fun get_sample_channels = al_get_sample_channels(spl : Sample) : ChannelConf
+  fun get_sample_data = al_get_sample_data(spl : Sample) : Void*
+  fun get_sample_instance_frequency = al_get_sample_instance_frequency(spl : SampleInstance) : LibC::UInt
+  fun get_sample_instance_length = al_get_sample_instance_length(spl : SampleInstance) : LibC::UInt
+  fun get_sample_instance_position = al_get_sample_instance_position(spl : SampleInstance) : LibC::UInt
+  fun get_sample_instance_speed = al_get_sample_instance_speed(spl : SampleInstance) : LibC::Float
+  fun get_sample_instance_gain = al_get_sample_instance_gain(spl : SampleInstance) : LibC::Float
+  fun get_sample_instance_pan = al_get_sample_instance_pan(spl : SampleInstance) : LibC::Float
+  fun get_sample_instance_time = al_get_sample_instance_time(spl : SampleInstance) : LibC::Float
+  fun get_sample_instance_depth = al_get_sample_instance_depth(spl : SampleInstance) : AudioDepth
+  fun get_sample_instance_channels = al_get_sample_instance_channels(spl : SampleInstance) : ChannelConf
+  fun get_sample_instance_playmode = al_get_sample_instance_playmode(spl : SampleInstance) : Playmode
+  enum Playmode
+    PlaymodeOnce           = 256
+    PlaymodeLoop           = 257
+    PlaymodeBidir          = 258
+    X_PlaymodeStreamOnce   = 259
+    X_PlaymodeStreamOnedir = 260
+  end
+  fun get_sample_instance_playing = al_get_sample_instance_playing(spl : SampleInstance) : LibC::Bool
+  fun get_sample_instance_attached = al_get_sample_instance_attached(spl : SampleInstance) : LibC::Bool
+  fun set_sample_instance_position = al_set_sample_instance_position(spl : SampleInstance, val : LibC::UInt) : LibC::Bool
+  fun set_sample_instance_length = al_set_sample_instance_length(spl : SampleInstance, val : LibC::UInt) : LibC::Bool
+  fun set_sample_instance_speed = al_set_sample_instance_speed(spl : SampleInstance, val : LibC::Float) : LibC::Bool
+  fun set_sample_instance_gain = al_set_sample_instance_gain(spl : SampleInstance, val : LibC::Float) : LibC::Bool
+  fun set_sample_instance_pan = al_set_sample_instance_pan(spl : SampleInstance, val : LibC::Float) : LibC::Bool
+  fun set_sample_instance_playmode = al_set_sample_instance_playmode(spl : SampleInstance, val : Playmode) : LibC::Bool
+  fun set_sample_instance_playing = al_set_sample_instance_playing(spl : SampleInstance, val : LibC::Bool) : LibC::Bool
+  fun detach_sample_instance = al_detach_sample_instance(spl : SampleInstance) : LibC::Bool
+  fun set_sample = al_set_sample(spl : SampleInstance, data : Sample) : LibC::Bool
+  fun get_sample = al_get_sample(spl : SampleInstance) : Sample
+  fun play_sample_instance = al_play_sample_instance(spl : SampleInstance) : LibC::Bool
+  fun stop_sample_instance = al_stop_sample_instance(spl : SampleInstance) : LibC::Bool
+  fun create_audio_stream = al_create_audio_stream(buffer_count : LibC::SizeT, samples : LibC::UInt, freq : LibC::UInt, depth : AudioDepth, chan_conf : ChannelConf) : AudioStream
+  type AudioStream = Void*
+  fun destroy_audio_stream = al_destroy_audio_stream(stream : AudioStream)
+  fun drain_audio_stream = al_drain_audio_stream(stream : AudioStream)
+  fun get_audio_stream_frequency = al_get_audio_stream_frequency(stream : AudioStream) : LibC::UInt
+  fun get_audio_stream_length = al_get_audio_stream_length(stream : AudioStream) : LibC::UInt
+  fun get_audio_stream_fragments = al_get_audio_stream_fragments(stream : AudioStream) : LibC::UInt
+  fun get_available_audio_stream_fragments = al_get_available_audio_stream_fragments(stream : AudioStream) : LibC::UInt
+  fun get_audio_stream_speed = al_get_audio_stream_speed(stream : AudioStream) : LibC::Float
+  fun get_audio_stream_gain = al_get_audio_stream_gain(stream : AudioStream) : LibC::Float
+  fun get_audio_stream_pan = al_get_audio_stream_pan(stream : AudioStream) : LibC::Float
+  fun get_audio_stream_channels = al_get_audio_stream_channels(stream : AudioStream) : ChannelConf
+  fun get_audio_stream_depth = al_get_audio_stream_depth(stream : AudioStream) : AudioDepth
+  fun get_audio_stream_playmode = al_get_audio_stream_playmode(stream : AudioStream) : Playmode
+  fun get_audio_stream_playing = al_get_audio_stream_playing(spl : AudioStream) : LibC::Bool
+  fun get_audio_stream_attached = al_get_audio_stream_attached(spl : AudioStream) : LibC::Bool
+  fun get_audio_stream_played_samples = al_get_audio_stream_played_samples(stream : AudioStream) : Uint64T
+  fun get_audio_stream_fragment = al_get_audio_stream_fragment(stream : AudioStream) : Void*
+  fun set_audio_stream_speed = al_set_audio_stream_speed(stream : AudioStream, val : LibC::Float) : LibC::Bool
+  fun set_audio_stream_gain = al_set_audio_stream_gain(stream : AudioStream, val : LibC::Float) : LibC::Bool
+  fun set_audio_stream_pan = al_set_audio_stream_pan(stream : AudioStream, val : LibC::Float) : LibC::Bool
+  fun set_audio_stream_playmode = al_set_audio_stream_playmode(stream : AudioStream, val : Playmode) : LibC::Bool
+  fun set_audio_stream_playing = al_set_audio_stream_playing(stream : AudioStream, val : LibC::Bool) : LibC::Bool
+  fun detach_audio_stream = al_detach_audio_stream(stream : AudioStream) : LibC::Bool
+  fun set_audio_stream_fragment = al_set_audio_stream_fragment(stream : AudioStream, val : Void*) : LibC::Bool
+  fun rewind_audio_stream = al_rewind_audio_stream(stream : AudioStream) : LibC::Bool
+  fun seek_audio_stream_secs = al_seek_audio_stream_secs(stream : AudioStream, time : LibC::Double) : LibC::Bool
+  fun get_audio_stream_position_secs = al_get_audio_stream_position_secs(stream : AudioStream) : LibC::Double
+  fun get_audio_stream_length_secs = al_get_audio_stream_length_secs(stream : AudioStream) : LibC::Double
+  fun set_audio_stream_loop_secs = al_set_audio_stream_loop_secs(stream : AudioStream, start : LibC::Double, _end : LibC::Double) : LibC::Bool
+  fun get_audio_stream_event_source = al_get_audio_stream_event_source(stream : AudioStream) : EventSource*
+  fun create_mixer = al_create_mixer(freq : LibC::UInt, depth : AudioDepth, chan_conf : ChannelConf) : Mixer
+  type Mixer = Void*
+  fun destroy_mixer = al_destroy_mixer(mixer : Mixer)
+  fun attach_sample_instance_to_mixer = al_attach_sample_instance_to_mixer(stream : SampleInstance, mixer : Mixer) : LibC::Bool
+  fun attach_audio_stream_to_mixer = al_attach_audio_stream_to_mixer(stream : AudioStream, mixer : Mixer) : LibC::Bool
+  fun attach_mixer_to_mixer = al_attach_mixer_to_mixer(stream : Mixer, mixer : Mixer) : LibC::Bool
+  fun set_mixer_postprocess_callback = al_set_mixer_postprocess_callback(mixer : Mixer, cb : (Void*, LibC::UInt, Void* -> Void), data : Void*) : LibC::Bool
+  fun get_mixer_frequency = al_get_mixer_frequency(mixer : Mixer) : LibC::UInt
+  fun get_mixer_channels = al_get_mixer_channels(mixer : Mixer) : ChannelConf
+  fun get_mixer_depth = al_get_mixer_depth(mixer : Mixer) : AudioDepth
+  fun get_mixer_quality = al_get_mixer_quality(mixer : Mixer) : MixerQuality
+  enum MixerQuality
+    MixerQualityPoint  = 272
+    MixerQualityLinear = 273
+    MixerQualityCubic  = 274
+  end
+  fun get_mixer_gain = al_get_mixer_gain(mixer : Mixer) : LibC::Float
+  fun get_mixer_playing = al_get_mixer_playing(mixer : Mixer) : LibC::Bool
+  fun get_mixer_attached = al_get_mixer_attached(mixer : Mixer) : LibC::Bool
+  fun set_mixer_frequency = al_set_mixer_frequency(mixer : Mixer, val : LibC::UInt) : LibC::Bool
+  fun set_mixer_quality = al_set_mixer_quality(mixer : Mixer, val : MixerQuality) : LibC::Bool
+  fun set_mixer_gain = al_set_mixer_gain(mixer : Mixer, gain : LibC::Float) : LibC::Bool
+  fun set_mixer_playing = al_set_mixer_playing(mixer : Mixer, val : LibC::Bool) : LibC::Bool
+  fun detach_mixer = al_detach_mixer(mixer : Mixer) : LibC::Bool
+  fun create_voice = al_create_voice(freq : LibC::UInt, depth : AudioDepth, chan_conf : ChannelConf) : Voice
+  type Voice = Void*
+  fun destroy_voice = al_destroy_voice(voice : Voice)
+  fun attach_sample_instance_to_voice = al_attach_sample_instance_to_voice(stream : SampleInstance, voice : Voice) : LibC::Bool
+  fun attach_audio_stream_to_voice = al_attach_audio_stream_to_voice(stream : AudioStream, voice : Voice) : LibC::Bool
+  fun attach_mixer_to_voice = al_attach_mixer_to_voice(mixer : Mixer, voice : Voice) : LibC::Bool
+  fun detach_voice = al_detach_voice(voice : Voice)
+  fun get_voice_frequency = al_get_voice_frequency(voice : Voice) : LibC::UInt
+  fun get_voice_position = al_get_voice_position(voice : Voice) : LibC::UInt
+  fun get_voice_channels = al_get_voice_channels(voice : Voice) : ChannelConf
+  fun get_voice_depth = al_get_voice_depth(voice : Voice) : AudioDepth
+  fun get_voice_playing = al_get_voice_playing(voice : Voice) : LibC::Bool
+  fun set_voice_position = al_set_voice_position(voice : Voice, val : LibC::UInt) : LibC::Bool
+  fun set_voice_playing = al_set_voice_playing(voice : Voice, val : LibC::Bool) : LibC::Bool
+  fun install_audio = al_install_audio : LibC::Bool
+  fun uninstall_audio = al_uninstall_audio
+  fun is_audio_installed = al_is_audio_installed : LibC::Bool
+  fun get_allegro_audio_version = al_get_allegro_audio_version : Uint32T
+  fun get_channel_count = al_get_channel_count(conf : ChannelConf) : LibC::SizeT
+  fun get_audio_depth_size = al_get_audio_depth_size(conf : AudioDepth) : LibC::SizeT
+  fun fill_silence = al_fill_silence(buf : Void*, samples : LibC::UInt, depth : AudioDepth, chan_conf : ChannelConf)
+  fun reserve_samples = al_reserve_samples(reserve_samples : LibC::Int) : LibC::Bool
+  fun get_default_mixer = al_get_default_mixer : Mixer
+  fun set_default_mixer = al_set_default_mixer(mixer : Mixer) : LibC::Bool
+  fun restore_default_mixer = al_restore_default_mixer : LibC::Bool
+  fun play_sample = al_play_sample(data : Sample, gain : LibC::Float, pan : LibC::Float, speed : LibC::Float, loop : Playmode, ret_id : SampleId*) : LibC::Bool
+  fun stop_sample = al_stop_sample(spl_id : SampleId*)
+  fun stop_samples = al_stop_samples
+  fun get_default_voice = al_get_default_voice : Voice
+  fun set_default_voice = al_set_default_voice(voice : Voice)
+  fun register_sample_loader = al_register_sample_loader(ext : LibC::Char*, loader : (LibC::Char* -> Sample)) : LibC::Bool
+  fun register_sample_saver = al_register_sample_saver(ext : LibC::Char*, saver : (LibC::Char*, Sample -> LibC::Bool)) : LibC::Bool
+  fun register_audio_stream_loader = al_register_audio_stream_loader(ext : LibC::Char*, stream_loader : (LibC::Char*, LibC::SizeT, LibC::UInt -> AudioStream)) : LibC::Bool
+  fun register_sample_loader_f = al_register_sample_loader_f(ext : LibC::Char*, loader : (File -> Sample)) : LibC::Bool
+  fun register_sample_saver_f = al_register_sample_saver_f(ext : LibC::Char*, saver : (File, Sample -> LibC::Bool)) : LibC::Bool
+  fun register_audio_stream_loader_f = al_register_audio_stream_loader_f(ext : LibC::Char*, stream_loader : (File, LibC::SizeT, LibC::UInt -> AudioStream)) : LibC::Bool
+  fun load_sample = al_load_sample(filename : LibC::Char*) : Sample
+  fun save_sample = al_save_sample(filename : LibC::Char*, spl : Sample) : LibC::Bool
+  fun load_audio_stream = al_load_audio_stream(filename : LibC::Char*, buffer_count : LibC::SizeT, samples : LibC::UInt) : AudioStream
+  fun load_sample_f = al_load_sample_f(fp : File, ident : LibC::Char*) : Sample
+  fun save_sample_f = al_save_sample_f(fp : File, ident : LibC::Char*, spl : Sample) : LibC::Bool
+  fun load_audio_stream_f = al_load_audio_stream_f(fp : File, ident : LibC::Char*, buffer_count : LibC::SizeT, samples : LibC::UInt) : AudioStream
   fun get_allegro_color_version = al_get_allegro_color_version : Uint32T
   fun color_hsv_to_rgb = al_color_hsv_to_rgb(hue : LibC::Float, saturation : LibC::Float, value : LibC::Float, red : LibC::Float*, green : LibC::Float*, blue : LibC::Float*)
   fun color_rgb_to_hsl = al_color_rgb_to_hsl(red : LibC::Float, green : LibC::Float, blue : LibC::Float, hue : LibC::Float*, saturation : LibC::Float*, lightness : LibC::Float*)
