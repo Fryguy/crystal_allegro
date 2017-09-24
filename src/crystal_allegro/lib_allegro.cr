@@ -1,4 +1,5 @@
 @[Link("allegro")]
+@[Link("allegro_acodec")]
 @[Link("allegro_audio")]
 @[Link("allegro_color")]
 @[Link("allegro_dialog")]
@@ -1279,6 +1280,8 @@ lib LibAllegro
   fun load_sample_f = al_load_sample_f(fp : File, ident : LibC::Char*) : Sample
   fun save_sample_f = al_save_sample_f(fp : File, ident : LibC::Char*, spl : Sample) : LibC::Bool
   fun load_audio_stream_f = al_load_audio_stream_f(fp : File, ident : LibC::Char*, buffer_count : LibC::SizeT, samples : LibC::UInt) : AudioStream
+  fun init_acodec_addon = al_init_acodec_addon : LibC::Bool
+  fun get_allegro_acodec_version = al_get_allegro_acodec_version : Uint32T
   fun get_allegro_color_version = al_get_allegro_color_version : Uint32T
   fun color_hsv_to_rgb = al_color_hsv_to_rgb(hue : LibC::Float, saturation : LibC::Float, value : LibC::Float, red : LibC::Float*, green : LibC::Float*, blue : LibC::Float*)
   fun color_rgb_to_hsl = al_color_rgb_to_hsl(red : LibC::Float, green : LibC::Float, blue : LibC::Float, hue : LibC::Float*, saturation : LibC::Float*, lightness : LibC::Float*)

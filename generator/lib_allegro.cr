@@ -8,6 +8,7 @@
 
 @[Include(
   "allegro5/allegro.h",
+  "allegro5/allegro_acodec.h",
   "allegro5/allegro_audio.h",
   "allegro5/allegro_color.h",
   "allegro5/allegro_image.h",
@@ -18,6 +19,7 @@
   prefix: %w(al_ AL_ ALLEGRO_ _al _ALLEGRO)
 )]
 @[Link("allegro")]
+@[Link("allegro_acodec")]
 @[Link("allegro_audio")]
 @[Link("allegro_color")]
 @[Link("allegro_dialog")]
