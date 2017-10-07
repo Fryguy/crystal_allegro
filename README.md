@@ -1,28 +1,43 @@
-# crystal_allegro
+# CrystalAllegro
 
-TODO: Write a description here
+CrystalAllegro is a Crytal bindiner to the [Allegro](http://liballeg.org/) game programming library.
 
 ## Installation
 
-Add this to your application's `shard.yml`:
+- [Install Allegro](https://wiki.allegro.cc/index.php?title=Getting_Started#Installing_Allegro)
+- Install the Crystal shard
 
-```yaml
-dependencies:
-  crystal_allegro:
-    github: Fryguy/crystal_allegro
-```
+  Add this to your application's `shard.yml`:
+
+  ```yaml
+  dependencies:
+    crystal_allegro:
+      github: Fryguy/crystal_allegro
+  ```
 
 ## Usage
 
+Start your application by calling CrystalAllegro.init:
+
 ```crystal
 require "crystal_allegro"
+
+raise "Cannot initialize Crystal" unless CrystalAllegro.init
 ```
 
-TODO: Write usage instructions here
+After that, it's up to you!  For the Allegro API reference, go [here](http://liballeg.org/a5docs/trunk/).
+See the [examples](examples) directory for Crystal ports of the Allegro examples.
 
 ## Development
 
-TODO: Write development instructions here
+`src/crystal_allegro/lib_allegro.cr` is generated using
+[crystal_lib](https://github.com/crystal-lang/crystal_lib). To regenerate it:
+
+```sh
+git clone https://github.com/crystal-lang/crystal_lib.git
+cd crystal_allegro
+crystal ../crystal_lib/src/main.cr -- generator/lib_allegro.cr > src/crystal_allegro/lib_allegro.cr
+```
 
 ## Contributing
 
