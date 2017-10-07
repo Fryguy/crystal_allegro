@@ -5,6 +5,10 @@ module CrystalAllegro
     LibAllegro.install_system(LibAllegro.get_allegro_version, nil)
   end
 
+  macro malloc(p)
+    LibAllegro.malloc_with_context({{p}}, __LINE__, __FILE__, nil)
+  end
+
   macro free(p)
     LibAllegro.free_with_context({{p}}, __LINE__, __FILE__, nil)
   end

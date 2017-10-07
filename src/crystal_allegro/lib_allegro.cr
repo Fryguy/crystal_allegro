@@ -1096,7 +1096,7 @@ lib LibAllegro
   fun broadcast_cond = al_broadcast_cond(cond : Cond)
   fun signal_cond = al_signal_cond(cond : Cond)
   fun create_timer = al_create_timer(speed_secs : LibC::Double) : Timer*
-  alias Timer = Void
+  type Timer = Void
   fun destroy_timer = al_destroy_timer(timer : Timer*)
   fun start_timer = al_start_timer(timer : Timer*)
   fun stop_timer = al_stop_timer(timer : Timer*)
