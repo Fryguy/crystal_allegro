@@ -1,6 +1,6 @@
 # CrystalAllegro
 
-CrystalAllegro is a Crytal bindiner to the [Allegro](http://liballeg.org/) game programming library.
+CrystalAllegro is a Crystal binding to the [Allegro](http://liballeg.org/) game programming library.
 
 ## Installation
 
