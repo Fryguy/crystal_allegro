@@ -4,6 +4,12 @@ version: 0.1.0
 authors:
   - Jason Frey <fryguy9@gmail.com>
 
+description: |
+  Crystal binding to the Allegro game programming library.
+
 crystal: 0.25.1
 
 license: MIT
+
+libraries:
+  liballegro: ~> 5.2.2.0

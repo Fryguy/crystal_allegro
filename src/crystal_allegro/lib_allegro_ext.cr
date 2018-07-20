@@ -1,5 +1,7 @@
 lib LibAllegro
   type Display = Void*
+  type Joystick = Void*
+  type Timer = Void*
   PixelFormatAny                =      0
   PixelFormatAnyNoAlpha         =      1
   PixelFormatAnyWithAlpha       =      2
