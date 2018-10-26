@@ -31,11 +31,10 @@ lib LibAllegro
   fun run_main = al_run_main(argc : LibC::Int, argv : LibC::Char**, x2 : (LibC::Int, LibC::Char** -> LibC::Int)) : LibC::Int
 
   struct Timeout
-    __pad1__ : Uint64T
-    __pad2__ : Uint64T
+    __pad1__ : LibC::Int
+    __pad2__ : LibC::Int
   end
 
-  alias Uint64T = LibC::ULongLong
   fun get_time = al_get_time : LibC::Double
   fun rest = al_rest(seconds : LibC::Double)
   fun init_timeout = al_init_timeout(timeout : Timeout*, seconds : LibC::Double)
@@ -187,12 +186,11 @@ lib LibAllegro
   fun ustr_has_suffix_cstr = al_ustr_has_suffix_cstr(us1 : Ustr*, s : LibC::Char*) : LibC::Bool
   fun utf8_width = al_utf8_width(c : Int32T) : LibC::SizeT
   fun utf8_encode = al_utf8_encode(s : LibC::Char*, c : Int32T) : LibC::SizeT
-  fun ustr_new_from_utf16 = al_ustr_new_from_utf16(s : Uint16T*) : Ustr*
-  alias Uint16T = LibC::UShort
+  fun ustr_new_from_utf16 = al_ustr_new_from_utf16(x0 : LibC::Int) : Ustr*
   fun ustr_size_utf16 = al_ustr_size_utf16(us : Ustr*) : LibC::SizeT
-  fun ustr_encode_utf16 = al_ustr_encode_utf16(us : Ustr*, s : Uint16T*, n : LibC::SizeT) : LibC::SizeT
+  fun ustr_encode_utf16 = al_ustr_encode_utf16(us : Ustr*, s : LibC::Int*, n : LibC::SizeT) : LibC::SizeT
   fun utf16_width = al_utf16_width(c : LibC::Int) : LibC::SizeT
-  fun utf16_encode = al_utf16_encode(s : Uint16T*, c : Int32T) : LibC::SizeT
+  fun utf16_encode = al_utf16_encode(s : LibC::Int*, c : Int32T) : LibC::SizeT
   fun create_path = al_create_path(str : LibC::Char*) : Path
   type Path = Void*
   fun create_path_for_directory = al_create_path_for_directory(str : LibC::Char*) : Path
@@ -1084,7 +1082,7 @@ lib LibAllegro
   fun set_thread_should_stop = al_set_thread_should_stop(outer : Thread)
   fun get_thread_should_stop = al_get_thread_should_stop(outer : Thread) : LibC::Bool
   fun destroy_thread = al_destroy_thread(thread : Thread)
-  fun run_detached_thread = al_run_detached_thread(proc : (Void* -> Void*), arg : Void*)
+  fun run_detached_thread = al_run_detached_thread(proc : (Void* -> Void), arg : Void*)
   fun create_mutex = al_create_mutex : Mutex
   type Mutex = Void*
   fun create_mutex_recursive = al_create_mutex_recursive : Mutex
@@ -1202,6 +1200,7 @@ lib LibAllegro
   fun get_audio_stream_playing = al_get_audio_stream_playing(spl : AudioStream) : LibC::Bool
   fun get_audio_stream_attached = al_get_audio_stream_attached(spl : AudioStream) : LibC::Bool
   fun get_audio_stream_played_samples = al_get_audio_stream_played_samples(stream : AudioStream) : Uint64T
+  alias Uint64T = LibC::ULongLong
   fun get_audio_stream_fragment = al_get_audio_stream_fragment(stream : AudioStream) : Void*
   fun set_audio_stream_speed = al_set_audio_stream_speed(stream : AudioStream, val : LibC::Float) : LibC::Bool
   fun set_audio_stream_gain = al_set_audio_stream_gain(stream : AudioStream, val : LibC::Float) : LibC::Bool
@@ -1365,7 +1364,7 @@ lib LibAllegro
 
   struct MenuInfo
     caption : LibC::Char*
-    id : Uint16T
+    id : LibC::Int
     flags : LibC::Int
     icon : Bitmap
   end
@@ -1388,8 +1387,8 @@ lib LibAllegro
   type Menu = Void*
   fun create_popup_menu = al_create_popup_menu : Menu
   fun build_menu = al_build_menu(info : MenuInfo*) : Menu
-  fun append_menu_item = al_append_menu_item(parent : Menu, title : LibC::Char*, id : Uint16T, flags : LibC::Int, icon : Bitmap, submenu : Menu) : LibC::Int
-  fun insert_menu_item = al_insert_menu_item(parent : Menu, pos : LibC::Int, title : LibC::Char*, id : Uint16T, flags : LibC::Int, icon : Bitmap, submenu : Menu) : LibC::Int
+  fun append_menu_item = al_append_menu_item(parent : Menu, title : LibC::Char*, id : LibC::Int, flags : LibC::Int, icon : Bitmap, submenu : Menu) : LibC::Int
+  fun insert_menu_item = al_insert_menu_item(parent : Menu, pos : LibC::Int, title : LibC::Char*, id : LibC::Int, flags : LibC::Int, icon : Bitmap, submenu : Menu) : LibC::Int
   fun remove_menu_item = al_remove_menu_item(menu : Menu, pos : LibC::Int) : LibC::Bool
   fun clone_menu = al_clone_menu(menu : Menu) : Menu
   fun clone_menu_for_popup = al_clone_menu_for_popup(menu : Menu) : Menu
@@ -1400,8 +1399,8 @@ lib LibAllegro
   fun set_menu_item_flags = al_set_menu_item_flags(menu : Menu, pos : LibC::Int, flags : LibC::Int)
   fun get_menu_item_icon = al_get_menu_item_icon(menu : Menu, pos : LibC::Int) : Bitmap
   fun set_menu_item_icon = al_set_menu_item_icon(menu : Menu, pos : LibC::Int, icon : Bitmap)
-  fun find_menu = al_find_menu(haystack : Menu, id : Uint16T) : Menu
-  fun find_menu_item = al_find_menu_item(haystack : Menu, id : Uint16T, menu : Menu*, index : LibC::Int*) : LibC::Bool
+  fun find_menu = al_find_menu(haystack : Menu, id : LibC::Int) : Menu
+  fun find_menu_item = al_find_menu_item(haystack : Menu, id : LibC::Int, menu : Menu*, index : LibC::Int*) : LibC::Bool
   fun get_default_menu_event_source = al_get_default_menu_event_source : EventSource*
   fun enable_menu_event_source = al_enable_menu_event_source(menu : Menu) : EventSource*
   fun disable_menu_event_source = al_disable_menu_event_source(menu : Menu)

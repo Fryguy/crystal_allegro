@@ -7,9 +7,14 @@ authors:
 description: |
   Crystal binding to the Allegro game programming library.
 
-crystal: 0.25.1
+crystal: 0.26.1
 
 license: MIT
+
+development_dependencies:
+  crystal_lib:
+    github: crystal-lang/crystal_lib
+    branch: master
 
 libraries:
   liballegro: ~> 5.2.2.0
